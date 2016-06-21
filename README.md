@@ -19,9 +19,6 @@ LeetCodeInJava
 
 今晚做了两天题目练练手
 
-
-各个题目的标题
-
 # Detail
 ## #104  Maximum Depth of Binary Tree
 
@@ -64,13 +61,55 @@ LeetCodeInJava
 这个好像可以看wikipedia上关于digital root的解释，给个链接吧
 https://en.wikipedia.org/wiki/Digital_root
 
-
-
-## #104  Maximum Depth of Binary Tree
+## #260  Single Number III
 
 **Detail**:  
 -description:  
-没什么说的 直接递归
+这个题和#136有点相似，但是是有两个数不是为双的。
+
+ 1. 先找出这两个数的异或结果。
+ 2. 既然有了这两个数的异或结果res，那么res中取第n位为1，就表示在这两个数中，有一个第n位为0，有一个第n位为1。
+ 3. 这样按照此区分，把所有的数分为两组，一组是第n位为0，一组是第n位为1，这样在两组中只存在一个不是双数的数，再按照#136的方法即可得出结果。
+
+## #283  Move Zeroes
+
+**Detail**:  
+-description:  
+一个re标志位用来标记当前数组的位置，非0就将它复制到前面去。
+最后再把0补齐即可。
+
+## #292  Nim Game
+
+**Detail**:  
+-description:  
+没啥了，每次只能取1-3，这样保证取出的是4的倍数即可。
+
+## #338  Counting Bits
+
+**Detail**:  
+-description:  
+counting bit相信大家都没有问题，那么counting bits就需要找规律了。
+可以发现任意一个偶数n和n+1的关系
+```
+countingBit(n) = countingBit(n + 1) - 1
+```
+然后hint还提示了可以分组计算，[1, 2], [2, 3], [4, 7], [8, 16]，我没想太多，不过应该还是有可以重复利用的部分。
+
+## #344  Reverse Strin
+
+**Detail**:  
+-description:  
+这个直接用了Java中的StringBuilder，用来做字符串的运算会快很多，不需要每次重新建一个String。
+
+## #349  Intersection of Two Arrays
+
+**Detail**:  
+-description:  
+我用的笨方法。
+
+ 1. 先把nums1中的数据放到一个map1中 
+ 2. 再把nums2中的数据如果在map1中也有的话，放到map2中
+ 3. 再把map2中的读出来放进数组里。
 
 Welcome to StackEdit!
 ===================
