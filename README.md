@@ -1,17 +1,26 @@
 LeetCodeInJava
 ===================
 # List
++ #100  Same Tree
 + #104  Maximum Depth of Binary Tree
++ #122  Best Time to Buy and Sell Stock II
 + #136  Single Number
++ #171  Excel Sheet Column Number
 + #226  Invert Binary Tree
 + #237  Delete Node in a Linked List
++ #238  Product of Array Except Self
++ #242  Valid Anagram
 + #258  Add Digits
 + #260  Single Number III
 + #283  Move Zeroes
 + #292  Nim Game
 + #338  Counting Bits
++ #347  Top K Frequent Elements
 + #349  Intersection of Two Arrays
 + #344  Reverse String
+
+
+  347 Top K Frequent Elements
 
 
 2016-06-20
@@ -19,17 +28,28 @@ LeetCodeInJava
 
 今晚做了两天题目练练手
 
-# Detail
+## #100  Same Tree
+
+**Detail**:
+-description:
+也是递归的方法，首先判断当前节点的val是否相同，如果相同则分别判断左右子节点
+
 ## #104  Maximum Depth of Binary Tree
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 没什么说的 直接递归
+
+## #122  Best Time to Buy and Sell Stock II
+
+**Detail**:
+-description:
+这个题目怎么说呢。。怎么会出现在leecode中，可能大部分人第一遍读下来之后没看懂题目的意思。其实很简单，就是我从一段时间开始到结束，什么时候买，什么时候卖是最赚的而且卖只能在买之后。所用就从左到右遍历一遍数组，如果后一个大于前一个，则表示可以赚钱，于是就相加。
 
 ## #136  Single Number
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 异或，相同的数异或为0
 
 运算法则：
@@ -41,30 +61,82 @@ LeetCodeInJava
 5. d = a ⊕ b ⊕ c 可以推出 a = d ⊕ b ⊕ c.
 6. a ⊕ b ⊕ a = b.
 ```
+## #171  Excel Sheet Column Number
+
+**Detail**:
+-description:
+这个其实就是类似于十进制、十六进制，这里是二十六进制，然后利用ascii码与'A'的差值来计算。
 
 ## #226 Invert Binary Tree
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 没什么说的 直接递归
 
 ## #237 Delete Node in a Linked List
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 这个题之前在《剑指offer》上看到过。惯性思维是删除current节点，巧妙的方法是删除next节点，这样就不用去查找prev节点了。所以呢，把下一个节点的val复制过来，然后删除next节点就OK了。
+
+## #238  Product of Array Except Self
+
+**Detail**:
+-description:
+这题有点意思啊，好好分析一下。
+首先读懂题目的意思，要求把所有的数都乘起来，并且除以自身，就是该位置的值。
+
+一般人的第一反应就是按照上面的思路呗，可是题目给了要求
+> Solve it without division and in O(n)
+
+不能用除法之后，只能用乘法操作，那么怎么样利用之前的结果，而不需要每次都做重复的乘法操作呢。
+不多说了，直接看代码
+```
+    for (int i = 1; i < nums.length; i++) {
+      res[i] = res[i-1] * nums[i-1];
+    }
+```
+
+第一次遍历，让数组中所有的数res[i] = res[0] * res[1] * ... * res[i-1]，等于它左边所有的数的乘积。但是题目的要求是除了自身所有的数，也就是所有左边的和所有右边的都要乘起来。
+这时候我们就需要第二次遍历了
+```
+    for (int i = nums.length - 1; i > 0; i--) {
+      res[i] = res[i] * res[0];
+      res[0] = res[0] * nums[i];
+    }
+```
+这里用了一个很巧妙的技巧，就是不断地让第一个数变大，而且是从右往左乘，这样res[i]需要再乘以 res[len-1], res[len-2], ..., res[i+1]，而res[0]就是在这个循环中不断地从右往左乘。
+
+## #242  Valid Anagram
+
+**Detail**:
+-description:
+我一开始的方法不知道为什么不行，testcase[33/34]每次都卡在这里简直无语了。笨方法就是分别用两个hashmap统计两个字符串中出现的所有字符，最后比较这两个hashmap是否相同。
+
+没办法，我只能去看答案，原来真的简单，根本用不到hashmap，因为总共就只有26个英文字符，所以一个26长的数组就能完全覆盖了。
+```
+      for (char c : s.toCharArray()) {
+          count[c - 'a']++;
+      }
+      for (char c : t.toCharArray()) {
+          count[c - 'a']--;
+          if (count[c - 'a'] < 0) return false;
+      }
+```
+两个循环，也是用ascii的值去计算字符在数组中的位置。
+第二遍如果发现有小于0的，说明t中肯定有多的字符，那么就不是valid anagram啦。不过当然第一步还是要判断两个字符串的长度是否相同。
 
 ## #258  Add Digits
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 这个好像可以看wikipedia上关于digital root的解释，给个链接吧
 https://en.wikipedia.org/wiki/Digital_root
 
 ## #260  Single Number III
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 这个题和#136有点相似，但是是有两个数不是为双的。
 
  1. 先找出这两个数的异或结果。
@@ -73,21 +145,21 @@ https://en.wikipedia.org/wiki/Digital_root
 
 ## #283  Move Zeroes
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 一个re标志位用来标记当前数组的位置，非0就将它复制到前面去。
 最后再把0补齐即可。
 
 ## #292  Nim Game
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 没啥了，每次只能取1-3，这样保证取出的是4的倍数即可。
 
 ## #338  Counting Bits
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 counting bit相信大家都没有问题，那么counting bits就需要找规律了。
 可以发现任意一个偶数n和n+1的关系
 ```
@@ -97,17 +169,26 @@ countingBit(n) = countingBit(n + 1) - 1
 
 ## #344  Reverse Strin
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 这个直接用了Java中的StringBuilder，用来做字符串的运算会快很多，不需要每次重新建一个String。
+
+## #347  Top K Frequent Elements
+
+**Detail**:
+-description:
+第一步必须是扫描，计入到hashmap中。
+那么怎么从每个数字出现的次数来找到前k个最高频率相互此案的，这样是不是就必须再对frequent进行排序呢。
+NO.NO.NO 因为总共只有n个数，那么即使所有的数字一样多，是不是出现的频率最高也就是n呢。从n到0循环遍历以频率为key的hashmap，看看是否有对应的数，如果有就取出来，直到取到了k个。
+
 
 ## #349  Intersection of Two Arrays
 
-**Detail**:  
--description:  
+**Detail**:
+-description:
 我用的笨方法。
 
- 1. 先把nums1中的数据放到一个map1中 
+ 1. 先把nums1中的数据放到一个map1中
  2. 再把nums2中的数据如果在map1中也有的话，放到map2中
  3. 再把map2中的读出来放进数组里。
 
