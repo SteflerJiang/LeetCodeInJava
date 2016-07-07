@@ -92,18 +92,18 @@ LeetCodeInJava
 不能用除法之后，只能用乘法操作，那么怎么样利用之前的结果，而不需要每次都做重复的乘法操作呢。
 不多说了，直接看代码
 ```
-    for (int i = 1; i < nums.length; i++) {
-      res[i] = res[i-1] * nums[i-1];
-    }
+for (int i = 1; i < nums.length; i++) {
+  res[i] = res[i-1] * nums[i-1];
+}
 ```
 
 第一次遍历，让数组中所有的数res[i] = res[0] * res[1] * ... * res[i-1]，等于它左边所有的数的乘积。但是题目的要求是除了自身所有的数，也就是所有左边的和所有右边的都要乘起来。
 这时候我们就需要第二次遍历了
 ```
-    for (int i = nums.length - 1; i > 0; i--) {
-      res[i] = res[i] * res[0];
-      res[0] = res[0] * nums[i];
-    }
+for (int i = nums.length - 1; i > 0; i--) {
+  res[i] = res[i] * res[0];
+  res[0] = res[0] * nums[i];
+}
 ```
 这里用了一个很巧妙的技巧，就是不断地让第一个数变大，而且是从右往左乘，这样res[i]需要再乘以 res[len-1], res[len-2], ..., res[i+1]，而res[0]就是在这个循环中不断地从右往左乘。
 
@@ -115,13 +115,13 @@ LeetCodeInJava
 
 没办法，我只能去看答案，原来真的简单，根本用不到hashmap，因为总共就只有26个英文字符，所以一个26长的数组就能完全覆盖了。
 ```
-      for (char c : s.toCharArray()) {
-          count[c - 'a']++;
-      }
-      for (char c : t.toCharArray()) {
-          count[c - 'a']--;
-          if (count[c - 'a'] < 0) return false;
-      }
+for (char c : s.toCharArray()) {
+    count[c - 'a']++;
+}
+for (char c : t.toCharArray()) {
+    count[c - 'a']--;
+    if (count[c - 'a'] < 0) return false;
+}
 ```
 两个循环，也是用ascii的值去计算字符在数组中的位置。
 第二遍如果发现有小于0的，说明t中肯定有多的字符，那么就不是valid anagram啦。不过当然第一步还是要判断两个字符串的长度是否相同。
