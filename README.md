@@ -31,7 +31,7 @@ LeetCodeInJava
 2016-06-20
 今天开始刷LeetCode，先从AC最高的做起来。因为不想放弃java，所以决定用java来完成这些题目。
 
-今晚做了两天题目练练手
+今晚做了两天题目练练手1
 
 ## 100  Same Tree
 
@@ -210,13 +210,13 @@ public class Solution {
         int length = citations.length;
         int h = 0;
         int[] array = new int[length + 1];
-		
+
 		// 考虑所有小于等于n的数`和`一个大于等于n的数
         for (int i : citations) {
 			if (i > length) array[length] += 1;
 			else array[i] += 1;
 		}
-        
+
 		// 从后向前遍历，找到最大的一个符合条件的数
         for (int i = length; i >= 0; i--) {
         	h = h + array[i];
@@ -276,7 +276,7 @@ countingBit(n) = countingBit(n + 1) - 1
 	public static int integerBreak(int n) {
 		return integerBreak(n, true);
     }
-	
+
 	public static int integerBreak(int n, boolean isFirst) {
 		if (n < 4)
 		{
