@@ -1,6 +1,7 @@
 LeetCodeInJava
 ===================
 # List
++ #98   Validate Binary Search Tree
 + #100  Same Tree
 + #104  Maximum Depth of Binary Tree
 + #122  Best Time to Buy and Sell Stock II
@@ -32,6 +33,50 @@ LeetCodeInJava
 今天开始刷LeetCode，先从AC最高的做起来。因为不想放弃java，所以决定用java来完成这些题目。
 
 今晚做了两天题目练练手12
+
+## 98  Validate Binary Search Tree
+
+**Detail**:
+
+- description:
+检查一个二叉查找树是不是合法的。
+
+第一反应很简单啊，这是我的第一版代码
+``` java
+public class Solution {  
+    public boolean isValidBST(TreeNode root) {  
+        if (root == null) return true;  
+        if (root.left == null && root.right == null) return true;  
+        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);  
+    }  
+      
+    public boolean validate(TreeNode root, int min, int max) {  
+        if (root == null) return true;  
+        if (root.val <= min || root.val >= max) return false;  
+        return validate(root.left, min, root.val) && validate(root.right, root.val, max);  
+    }  
+}  
+```
+可是就是跑不通测试，怎么看都不应该错啊。想了好久，又看了网上的讲解。原来不仅要看一个节点跟它的左右子树进行比较，还要看它的儿子和它的父亲之间的关系。
+一个很好的方法就是中序遍历，把一棵树按照**左根右**的方式去排列，然后检查一遍是否合格，不过需要花费额外的空间。
+
+
+网上看的一个不需要额外空间的优化解法，把代码列上来吧
+```java
+public class Solution {  
+    public boolean isValidBST(TreeNode root) {  
+        if (root == null) return true;  
+        if (root.left == null && root.right == null) return true;  
+        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);  
+    }  
+      
+    public boolean validate(TreeNode root, int min, int max) {  
+        if (root == null) return true;  
+        if (root.val <= min || root.val >= max) return false;  
+        return validate(root.left, min, root.val) && validate(root.right, root.val, max);  
+    }  
+}  
+```
 
 ## 100  Same Tree
 
@@ -273,6 +318,7 @@ countingBit(n) = countingBit(n + 1) - 1
 把一个数拆分开，求最大的成绩，用几个简单的例子就可以发现，拆出来的数要么是2，要么是3，所以我的方法还算比较简单，列一下代码，
 需要注意的是一个数不能是它自己，如2必须要拆成1*1，所以这里简单注意一下就OK
 ```java
+public class Solution {
 	public static int integerBreak(int n) {
 		return integerBreak(n, true);
     }
@@ -289,6 +335,7 @@ countingBit(n) = countingBit(n + 1) - 1
 			return 4 * integerBreak(n - 4, false);
 		return 3 * integerBreak(n - 3, false);
     }
+   }
 ```
 
 看了下答案，用的dp算法，状态和状态转移方程这里就不一一描述了，但我觉得这样的效率会比较低。
