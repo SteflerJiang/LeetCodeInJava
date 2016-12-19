@@ -64,18 +64,27 @@ public class Solution {
 网上看的一个不需要额外空间的优化解法，把代码列上来吧
 ```java
 public class Solution {  
-    public boolean isValidBST(TreeNode root) {  
-        if (root == null) return true;  
-        if (root.left == null && root.right == null) return true;  
-        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);  
-    }  
+    // Keep the previous value in inorder traversal.  
+    TreeNode pre = null;  
       
-    public boolean validate(TreeNode root, int min, int max) {  
-        if (root == null) return true;  
-        if (root.val <= min || root.val >= max) return false;  
-        return validate(root.left, min, root.val) && validate(root.right, root.val, max);  
-    }  
-}  
+    public boolean isValidBST(TreeNode root) {  
+        // Traverse the tree in inorder.  
+        if (root != null) {  
+            // Inorder traversal: left first.  
+            if (!isValidBST(root.left)) return false;  
+              
+            // Compare it with the previous value in inorder traversal.  
+            if (pre != null && root.val <= pre.val) return false;  
+              
+            // Update the previous value.  
+            pre = root;  
+              
+            // Inorder traversal: right last.  
+            return isValidBST(root.right);  
+        }  
+        return true;  
+     }  
+}
 ```
 
 ## 100  Same Tree
